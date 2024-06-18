@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  db-praxsa:
+    container_name: db-praxsa-api
+    image: postgres
+    restart: always
+    env_file: api/praxsa/.env
+    volumes:
+      - postgres-api:/var/lib/postgresql/data
+    ports:
+      - 5431:5432
+    networks:
+      - web_nw
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - web_nw
+
+volumes:
+  postgres-api:
+    external: true
+  static:
+    external: true
+
+networks:
+  web_nw:
+    external: true
